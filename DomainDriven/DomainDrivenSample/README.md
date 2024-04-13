@@ -1,12 +1,13 @@
 # LitPublish: Domain-Driven Design Sample Project
 
+![DomainDriven](../../assets/logo.png)
 LitPublish is a sample C# project illustrating the application of Domain-Driven Design (DDD) principles to a fictitious online publishing platform. The platform enables authors to self-publish, manage digital and print editions, track sales, and interact with readers. It also provides a marketplace for readers to purchase books and subscribe to authors or genres.
 
-[SalesDomain](../../assets/salesdomain.png)
+![SalesDomain](../../assets/salesdomain.png)
 
 ## Bounded Contexts
 
-[BoundedContext](../../assets/boundedcontext.png)
+![BoundedContext](../../assets/boundedcontext.png)
 
 This project is organized into several Bounded Contexts, each representing a distinct area of functionality within the domain model:
 
@@ -181,7 +182,7 @@ Catalog ..> IRepository : uses
 @enduml
 ```
 
-[Subdomains](../../assets/subdomains.png)
+![Subdomains](../../assets/subdomains.png)
 
 ## Project Structure
 

@@ -1,12 +1,13 @@
 # DomainDriven Library for .NET
 
+![DomainDriven](assets/logo.png)
 The DomainDriven library is a C# class library designed to encapsulate the key concepts of Domain-Driven Design (DDD) and provide a foundation for implementing rich domain models in enterprise applications. The library aims to facilitate the development of applications following DDD principles by providing base classes, interfaces, and patterns commonly used in DDD.
 
 ## Getting Started
 
 ### Prerequisites
 
-- .NET Core 
+- .NET Core
 - Visual Studio 2019 or later (optional, but recommended for development)
 
 ### Installation
@@ -19,7 +20,7 @@ To use the DomainDriven library in your project, install it via NuGet package ma
 
 Or, if you're using the Package Manager Console in Visual Studio:
 
-```powershell 
+```powershell
     Install-Package DomainDriven
 ```
 
@@ -27,12 +28,12 @@ Or, if you're using the Package Manager Console in Visual Studio:
 
 After installing the package, you can begin using the components in your domain layer. Here's a quick example of defining an entity:
 
-```csharp 
+```csharp
 using DomainDriven;
 
-public class Product : Entity<long> 
-{ 
-    public string Name { get; private set; } 
+public class Product : Entity<long>
+{
+    public string Name { get; private set; }
     public Money Price { get; private set; }
 
     // Add methods and domain logic here
@@ -72,10 +73,10 @@ For a comprehensive guide to using the DomainDriven library, please refer to the
 ## Sample DDD Project - [Publisher](./DomainDriven/DomainDrivenSample/README.md)
 
 **Bounded Context**
-[BoundedContext](./assets/boundedcontext.png)
+![BoundedContext](assets/boundedcontext.png)
 
 **Sales & Catalog Domain model**
-[SalesDomain](./assets/salesdomain.png)
+![SalesDomain](assets/salesdomain.png)
 
 ## Support and Contact
 
