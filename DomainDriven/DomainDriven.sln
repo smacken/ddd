@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDriven", "DomainDriven\DomainDriven.csproj", "{A2983F09-FF69-4B78-8E99-8BE382A828A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchitectureTests", "ArchitectureTests\ArchitectureTests.csproj", "{B5E8A994-423C-4103-A696-E2FCB01D7CA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDrivenSample", "DomainDrivenSample\DomainDrivenSample.csproj", "{37199E9E-BD37-458E-BC15-E932B58DDCF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2983F09-FF69-4B78-8E99-8BE382A828A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2983F09-FF69-4B78-8E99-8BE382A828A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2983F09-FF69-4B78-8E99-8BE382A828A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2983F09-FF69-4B78-8E99-8BE382A828A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5E8A994-423C-4103-A696-E2FCB01D7CA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5E8A994-423C-4103-A696-E2FCB01D7CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5E8A994-423C-4103-A696-E2FCB01D7CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5E8A994-423C-4103-A696-E2FCB01D7CA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37199E9E-BD37-458E-BC15-E932B58DDCF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37199E9E-BD37-458E-BC15-E932B58DDCF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37199E9E-BD37-458E-BC15-E932B58DDCF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37199E9E-BD37-458E-BC15-E932B58DDCF8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

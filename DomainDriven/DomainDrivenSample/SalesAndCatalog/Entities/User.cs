@@ -4,7 +4,6 @@ namespace DomainDrivenSample.SalesAndCatalog.Entities
 {
     public class User : Entity<Guid>
     {
-        public string ID { get; private set; }
         public string Username { get; private set; }
         public string Email { get; private set; }
 

@@ -1,4 +1,4 @@
-﻿using DomainDriven;
+﻿using DomainDrivenSample.SalesAndCatalog.ValueObjects;
 
 namespace DomainDrivenSample.SalesAndCatalog.Entities
 {
@@ -7,6 +7,7 @@ namespace DomainDrivenSample.SalesAndCatalog.Entities
         public string ID { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
+        public DateRange DateRange { get; private set; }
         public string Description { get; private set; }
 
         public Promotion(Guid id, DateTime startDate, DateTime endDate, string description)
@@ -14,6 +15,7 @@ namespace DomainDrivenSample.SalesAndCatalog.Entities
             Id = id;
             StartDate = startDate;
             EndDate = endDate;
+            DateRange = new DateRange(startDate, endDate);
             Description = description;
         }
 

@@ -1,14 +1,15 @@
-﻿namespace DomainDrivenSample.SalesAndCatalog.DomainEvents
+﻿using DomainDriven;
+
+namespace DomainDrivenSample.SalesAndCatalog.DomainEvents
 {
-    public class BookPriceChangedEvent
+    public class BookPriceChangedEvent : DomainEvent
     {
         public Guid BookId { get; private set; }
         public decimal NewPrice { get; private set; }
 
-        public BookPriceChangedEvent(Guid bookId, decimal newPrice)
+        public BookPriceChangedEvent(Dictionary<string, object> args, string? correlationId = null, int version = 1) 
+            : base(args, correlationId, version)
         {
-            BookId = bookId;
-            NewPrice = newPrice;
         }
     }
 }

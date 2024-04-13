@@ -1,12 +1,22 @@
-﻿namespace DomainDrivenSample.SalesAndCatalog.DomainEvents
+﻿using DomainDrivenSample.SalesAndCatalog.Aggregates;
+
+namespace DomainDrivenSample.SalesAndCatalog.DomainEvents
 {
-    public class BookUpdatedEvent
+    public class BookUpdatedEvent : DomainEvent
     {
         public Guid BookId { get; private set; }
         public string UpdatedProperty { get; private set; }
-        public object NewValue { get; private set; }
+        public Book NewValue { get; private set; }
 
-        public BookUpdatedEvent(Guid bookId, string updatedProperty, object newValue)
+        public BookUpdatedEvent(Guid bookId, string updatedProperty, Book newValue)
+            : base(
+                new Dictionary<string, object>
+                {
+                    { "BookId", bookId.ToString() },
+                    { "UpdatedProperty", updatedProperty },
+                    { "NewValue", newValue.ToString() }
+                }
+            )
         {
             BookId = bookId;
             UpdatedProperty = updatedProperty;

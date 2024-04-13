@@ -1,16 +1,16 @@
-﻿using DomainDriven;
+﻿using System.Collections.ObjectModel;
 using DomainDrivenSample.SalesAndCatalog.Aggregates;
+using DomainDrivenSample.SalesAndCatalog.ValueObjects;
 
 namespace DomainDrivenSample.SalesAndCatalog.Entities
 {
     public class Contract : Entity<long>
     {
+        private List<Book> _booksUnderContract = new List<Book>();
         public Publisher Publisher { get; private set; }
         public Author Author { get; private set; }
-        public DateTime StartDate { get; private set; }
-        public DateTime EndDate { get; private set; }
-        public DateRange DateRange => new DateRange(StartDate, EndDate);
-        public List<Book> BooksUnderContract { get; private set; } = new List<Book>();
+        public DateRange DateRange { get; private set; }
+        public ReadOnlyCollection<Book> BooksUnderContract => _booksUnderContract.AsReadOnly();
 
         public Contract(
             long id,
@@ -25,63 +25,12 @@ namespace DomainDrivenSample.SalesAndCatalog.Entities
             Publisher = publisher;
             Author = author;
             DateRange = new DateRange(startDate, endDate);
-            BooksUnderContract = booksUnderContract;
-        }
-
-        public void AddBook(Book book)
-        {
-            BooksUnderContract.Add(book);
-        }
-
-        public void RemoveBook(Book book)
-        {
-            BooksUnderContract.Remove(book);
+            _booksUnderContract = booksUnderContract;
         }
 
         public void ChangeDates(DateTime newStartDate, DateTime newEndDate)
         {
-            StartDate = newStartDate;
-            EndDate = newEndDate;
-        }
-
-        public void Renew(DateTime newEndDate)
-        {
-            EndDate = newEndDate;
-        }
-
-        public void Cancel()
-        {
-            EndDate = DateTime.Now;
-        }
-
-        public bool IsCancelled()
-        {
-            return EndDate < DateTime.Now;
-        }
-
-        public bool IsActive()
-        {
-            return StartDate <= DateTime.Now && DateTime.Now <= EndDate;
-        }
-
-        public bool IsUpcoming()
-        {
-            return StartDate > DateTime.Now;
-        }
-
-        public bool IsExpired()
-        {
-            return EndDate < DateTime.Now;
-        }
-
-        public bool IsOngoing()
-        {
-            return IsActive() && !IsExpired();
-        }
-
-        public void Activate()
-        {
-            StartDate = DateTime.Now;
+            DateRange = new DateRange(newStartDate, newEndDate);
         }
     }
 }

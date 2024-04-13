@@ -1,4 +1,7 @@
-﻿namespace DomainDriven
+﻿using System.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace DomainDriven
 {
     public static class DomainEvents
     {
@@ -46,7 +49,7 @@
                 
                 foreach (Handles<T>? handler in handlers)
                 {
-                    handler.Handle(args);
+                    await handler.Handle(args);
                 }
             }
 

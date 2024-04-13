@@ -18,31 +18,37 @@ namespace DomainDrivenSample.SalesAndCatalog.Entities
             Edition = edition;
             Quantity = quantity;
             Price = price;
+
+            // quantity should be greater than 0
+            if (quantity <= 0)
+            {
+                throw new DomainException("Quantity should be greater than 0");
+            }
         }
 
-        public void IncreaseQuantity(int quantity)
-        {
-            Quantity += quantity;
-        }
+        public void Increase(int quantity) => Quantity += quantity;
 
-        public void DecreaseQuantity(int quantity)
-        {
-            Quantity -= quantity;
-        }
+        public void Decrease(int quantity) => Quantity -= quantity;
+
+        public Money CalculateTotal() => Price * Quantity;
 
         public void ChangeEdition(Edition newEdition)
         {
             Edition = newEdition;
         }
 
-        public void ChangePrice(Money newPrice)
+        internal void ChangePrice(Money newPrice)
         {
             Price = newPrice;
         }
 
-        public Money CalculateTotal()
+        public void UpdateQuantity(int quantity)
         {
-            return Price * Quantity;
+            if (quantity <= 0)
+            {
+                throw new DomainException("Quantity should be greater than 0");
+            }
+            Quantity = quantity;
         }
     }
 }
