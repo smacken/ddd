@@ -2,7 +2,11 @@
 
 LitPublish is a sample C# project illustrating the application of Domain-Driven Design (DDD) principles to a fictitious online publishing platform. The platform enables authors to self-publish, manage digital and print editions, track sales, and interact with readers. It also provides a marketplace for readers to purchase books and subscribe to authors or genres.
 
+[SalesDomain](../../assets/salesdomain.png)
+
 ## Bounded Contexts
+
+[BoundedContext](../../assets/boundedcontext.png)
 
 This project is organized into several Bounded Contexts, each representing a distinct area of functionality within the domain model:
 
@@ -30,67 +34,68 @@ This project is organized into several Bounded Contexts, each representing a dis
 @startuml
 
 package "Sales & Catalog Management" {
-  [Catalog Management] 
-  [Sales Process] 
+  [Catalog Management]
+  [Sales Process]
 }
 
 package "Inventory & Supply Chain" {
-  [Inventory Management] 
-  [Supply Chain Coordination] 
+  [Inventory Management]
+  [Supply Chain Coordination]
 }
 
 package "Publishing & Content Management" {
-  [Manuscript Submission] 
-  [Editing and Formatting] 
-  [Publishing] 
+  [Manuscript Submission]
+  [Editing and Formatting]
+  [Publishing]
 }
 
 package "Author Collaboration & Services" {
-  [Collaboration Tools] 
-  [Promotional Campaigns] 
-  [Professional Services] 
+  [Collaboration Tools]
+  [Promotional Campaigns]
+  [Professional Services]
 }
 
 package "Reader Engagement & Subscriptions" {
-  [Account Management] 
-  [Subscription Management] 
-  [Community Features] 
+  [Account Management]
+  [Subscription Management]
+  [Community Features]
 }
 
 package "Royalties & Financials" {
-  [Transaction Management] 
-  [Royalty Calculations] 
-  [Financial Reporting] 
+  [Transaction Management]
+  [Royalty Calculations]
+  [Financial Reporting]
 }
 
 package "Marketing & Promotions" {
-  [Campaign Management] 
-  [Promotions] 
-  [Market Analysis] 
+  [Campaign Management]
+  [Promotions]
+  [Market Analysis]
 }
 
 package "User Identity & Access Control" {
-  [User Accounts] 
-  [Authentication] 
-  [Authorization] 
+  [User Accounts]
+  [Authentication]
+  [Authorization]
 }
 
 package "Analytics & Reporting" {
-  [Data Insights] 
-  [Performance Analysis] 
-  [Market Trends] 
+  [Data Insights]
+  [Performance Analysis]
+  [Market Trends]
 }
 
 package "Customer Support & Services" {
-  [User Support] 
-  [Inquiry Handling] 
-  [Assistance Services] 
+  [User Support]
+  [Inquiry Handling]
+  [Assistance Services]
 }
 
 @enduml
 ```
 
 ### Sample Domain Description for LitPublish
+
 Core Domain:
 
 Book: A central aggregate root in our domain, a book has a unique identifier, metadata (title, description, genre), pricing details, and is associated with one or more authors. Books can have multiple editions (e.g., digital, paperback, hardcover) and can be available or unavailable.
@@ -176,31 +181,33 @@ Catalog ..> IRepository : uses
 @enduml
 ```
 
+[Subdomains](../../assets/subdomains.png)
+
 ## Project Structure
 
 The project is structured as follows:
 
-LitPublishSolution/ 
-├── LitPublish.SalesAndCatalog/ 
-│ ├── Aggregates/ 
-│ ├── Entities/ 
-│ ├── ValueObjects/ 
-│ ├── Repositories/ 
-│ ├── Services/ 
-│ └── LitPublish.SalesAndCatalog.csproj 
-├── LitPublish.Inventory/ 
-│ └── (similar structure) 
-├── LitPublish.Publishing/ 
-│ └── (similar structure) 
-├── LitPublish.SharedKernel/ 
-│ ├── CommonInterfaces/ 
-│ ├── CommonValueObjects/ 
-│ └── LitPublish.SharedKernel.csproj 
-├── LitPublish.Infrastructure/ 
-│ ├── DependencyInjection/ 
-│ ├── Logging/ 
-│ ├── DataAccess/ 
-│ └── LitPublish.Infrastructure.csproj 
+LitPublishSolution/
+├── LitPublish.SalesAndCatalog/
+│ ├── Aggregates/
+│ ├── Entities/
+│ ├── ValueObjects/
+│ ├── Repositories/
+│ ├── Services/
+│ └── LitPublish.SalesAndCatalog.csproj
+├── LitPublish.Inventory/
+│ └── (similar structure)
+├── LitPublish.Publishing/
+│ └── (similar structure)
+├── LitPublish.SharedKernel/
+│ ├── CommonInterfaces/
+│ ├── CommonValueObjects/
+│ └── LitPublish.SharedKernel.csproj
+├── LitPublish.Infrastructure/
+│ ├── DependencyInjection/
+│ ├── Logging/
+│ ├── DataAccess/
+│ └── LitPublish.Infrastructure.csproj
 └── (Additional projects here)
 
 Each Bounded Context is encapsulated in its own project, promoting a clear separation of concerns and aligning with DDD principles.

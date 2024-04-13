@@ -69,9 +69,13 @@ Please ensure you write unit tests for your changes where applicable.
 
 For a comprehensive guide to using the DomainDriven library, please refer to the `/docs` directory in this repository or visit our [online documentation](#).
 
-## Sample DDD Project
+## Sample DDD Project - [Publisher](./DomainDriven/DomainDrivenSample/README.md)
 
-[Publisher](./DomainDriven/DomainDrivenSample/README.md)
+**Bounded Context**
+[BoundedContext](./assets/boundedcontext.png)
+
+**Sales & Catalog Domain model**
+[SalesDomain](./assets/salesdomain.png)
 
 ## Support and Contact
 
