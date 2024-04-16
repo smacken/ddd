@@ -27,6 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\DomainDrivenArchitecture\DomainDrivenArchitecture.csproj" />
       <ProjectReference Include="..\DomainDrivenSample\DomainDrivenSample.csproj" />
       <ProjectReference Include="..\DomainDriven\DomainDriven.csproj" />
     </ItemGroup>

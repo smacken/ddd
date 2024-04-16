@@ -1,18 +1,13 @@
-﻿using System.Linq.Expressions;
-
-namespace DomainDriven.Specification
+﻿namespace DomainDriven.Specification
 {
-    public class And<T> : Specification<T>
+    using System.Linq.Expressions;
+
+    public class And<T>(ISpecification<T> left, ISpecification<T> right): Specification<T>
     {
-        private readonly ISpecification<T> _left;
-        private readonly ISpecification<T> _right;
+        private readonly ISpecification<T> left = left;
+        private readonly ISpecification<T> right = right;
 
-        public And(ISpecification<T> left, ISpecification<T> right)
-        {
-            this._left = left;
-            this._right = right;
-        }
-
+        /// <inheritdoc/>
         public override Expression<Func<T, bool>> SpecExpression
         {
             get
@@ -20,11 +15,9 @@ namespace DomainDriven.Specification
                 ParameterExpression? parameter = Expression.Parameter(typeof(T), "obj");
                 Expression<Func<T, bool>>? expression = Expression.Lambda<Func<T, bool>>(
                     Expression.AndAlso(
-                        Expression.Invoke(_left.SpecExpression, parameter),
-                        Expression.Invoke(_right.SpecExpression, parameter)
-                    ),
-                    parameter
-                );
+                        Expression.Invoke(this.left.SpecExpression, parameter),
+                        Expression.Invoke(this.right.SpecExpression, parameter)),
+                    parameter);
 
                 return expression;
             }

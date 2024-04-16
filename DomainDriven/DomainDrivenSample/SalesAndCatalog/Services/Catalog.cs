@@ -3,14 +3,9 @@ using DomainDrivenSample.SalesAndCatalog.Specification;
 
 namespace DomainDrivenSample.SalesAndCatalog.Services
 {
-    public class Catalog
+    public class Catalog(IRepository<Book, Guid> bookRepository)
     {
-        private readonly IRepository<Book, Guid> _bookRepository;
-
-        public Catalog(IRepository<Book, Guid> bookRepository)
-        {
-            _bookRepository = bookRepository;
-        }
+        private readonly IRepository<Book, Guid> _bookRepository = bookRepository;
 
         public IEnumerable<Book> GetAllBooks() => _bookRepository.GetAll();
 
@@ -19,7 +14,7 @@ namespace DomainDrivenSample.SalesAndCatalog.Services
             return _bookRepository;
         }
 
-        public Book? GetBookById(Guid id, IRepository<Book, Guid> _bookRepository) =>
+        public static Book? GetBookById(Guid id, IRepository<Book, Guid> _bookRepository) =>
             _bookRepository.GetById(id);
 
         public IEnumerable<Book> GetBooksByAuthor(string author)

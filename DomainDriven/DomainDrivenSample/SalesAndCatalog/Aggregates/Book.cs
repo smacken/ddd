@@ -1,4 +1,6 @@
-﻿using DomainDrivenSample.SalesAndCatalog.DomainEvents;
+﻿using System.Collections.ObjectModel;
+using DomainDriven;
+using DomainDrivenSample.SalesAndCatalog.DomainEvents;
 using DomainDrivenSample.SalesAndCatalog.Entities;
 using DomainDrivenSample.SalesAndCatalog.ValueObjects;
 
@@ -6,25 +8,26 @@ namespace DomainDrivenSample.SalesAndCatalog.Aggregates
 {
     public class Book : AggregateRoot<Guid>
     {
+        private List<Edition> _editions = new List<Edition>();
         public BookMetadata Metadata { get; private set; }
-        public List<Edition> Editions { get; private set; }
-        public bool IsPublished => Editions.Any();
+        public ReadOnlyCollection<Edition> Editions => _editions.AsReadOnly();
+        public bool IsPublished => _editions.Any();
 
         public Book(Guid id, BookMetadata metadata)
             : base(id)
         {
             Metadata = metadata;
-            Editions = new List<Edition>();
+            _editions = new List<Edition>();
         }
 
         public void AddEdition(Edition edition)
         {
-            Editions.Add(edition);
+            _editions.Add(edition);
         }
 
         public void RemoveEdition(Edition edition)
         {
-            Editions.Remove(edition);
+            _editions.Remove(edition);
         }
 
         public void UpdateMetadata(BookMetadata metadata)
@@ -34,22 +37,18 @@ namespace DomainDrivenSample.SalesAndCatalog.Aggregates
 
         public void UpdateEdition(Edition edition)
         {
-            int index = Editions.FindIndex(0, x => x.Id == edition.Id);
-            if(index >= 0)
-            {
-                Editions[index] = edition;
-            }
+            var index = _editions.FindIndex(e => e.Id == edition.Id);
+            if (index < 0)
+                return;
+            _editions[index] = edition;
         }
 
         public void RemoveEdition(Guid editionId)
         {
-            var existingEdition = Editions.FirstOrDefault(e => e.Id == editionId);
-            if (existingEdition == null)
-            {
-                throw new InvalidOperationException("Edition not found");
-            }
-
-            Editions.Remove(existingEdition);
+            var index = _editions.FindIndex(e => e.Id == editionId);
+            if (index < 0)
+                return;
+            _editions.Remove(_editions[index]);
         }
 
         public void Publish()
@@ -57,18 +56,9 @@ namespace DomainDrivenSample.SalesAndCatalog.Aggregates
             if (IsPublished)
                 return;
 
-            var bookPublishedEvent = new BookPublishedEvent(
-                Id,
-                Metadata.Title,
-                new Dictionary<string, object>()
-                {
-                    {"Title", Metadata.Title},
-                    {"Authors", Metadata.Authors},
-                    {"ISBN", Metadata.ISBN},
-                    {"Editions", Editions.Select(e => new {e.Id, e.Price, e.StockQuantity}).ToList()}
-                }
+            DomainDriven.DomainEvents.Raise(
+                new BookPublishedEvent(this.Id, this.Metadata.Title, this.Metadata.ToDictionary())
             );
-            AddDomainEvent(bookPublishedEvent);
         }
     }
 }

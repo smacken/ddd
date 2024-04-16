@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "documentationRules": {
+      "companyName": "",
+      "copyrightText": "",
+      "variables": {
+        "licenseName": "",
+        "licenseFile": "LICENSE"
+      }
+    }
+  }
+}

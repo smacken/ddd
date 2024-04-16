@@ -9,18 +9,18 @@ namespace DomainDrivenSample.SalesAndCatalog.DomainEvents
         public Book NewValue { get; private set; }
 
         public BookUpdatedEvent(Guid bookId, string updatedProperty, Book newValue)
-            : base(
-                new Dictionary<string, object>
-                {
-                    { "BookId", bookId.ToString() },
-                    { "UpdatedProperty", updatedProperty },
-                    { "NewValue", newValue.ToString() }
-                }
-            )
+            : base()
         {
             BookId = bookId;
             UpdatedProperty = updatedProperty;
             NewValue = newValue;
+        }
+
+        public override void Flatten()
+        {
+            AddArg("BookId", BookId);
+            AddArg("UpdatedProperty", UpdatedProperty);
+            AddArg("NewValue", NewValue);
         }
     }
 }

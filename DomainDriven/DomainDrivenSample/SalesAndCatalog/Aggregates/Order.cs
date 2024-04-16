@@ -1,4 +1,6 @@
-﻿using DomainDrivenSample.SalesAndCatalog.Entities;
+﻿using System.Collections.ObjectModel;
+using DomainDrivenSample.SalesAndCatalog.DomainEvents;
+using DomainDrivenSample.SalesAndCatalog.Entities;
 using DomainDrivenSample.SalesAndCatalog.Services;
 using DomainDrivenSample.SalesAndCatalog.ValueObjects;
 
@@ -6,53 +8,48 @@ namespace DomainDrivenSample.SalesAndCatalog.Aggregates
 {
     public class Order : AggregateRoot<Guid>
     {
+        private List<OrderItem> _orderItems = new();
         public Reader Buyer { get; private set; }
-        public List<OrderItem> OrderItems { get; private set; } = new List<OrderItem>();
-        public DateTime DatePlaced { get; private set; }
-        public OrderStatus Status { get; private set; }
+        public ReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
+        public DateTime DatePlaced { get; private set; } = DateTime.UtcNow;
+        public OrderStatus Status { get; private set; } = OrderStatus.Placed;
 
-        public Order(Guid id, Reader buyer)
-            : base(id)
-        {
-            Buyer = buyer;
-            DatePlaced = DateTime.UtcNow;
-            Status = OrderStatus.Placed;
-        }
-
-        public void AddBookToOrder(Book book, Edition edition, int quantity, IPricingService pricingService)
+        public void AddBookToOrder(
+            Book book,
+            Edition edition,
+            int quantity,
+            IPricingCalculator pricingService
+        )
         {
             if (!book.Editions.Contains(edition))
-            {            
+            {
                 throw new InvalidOperationException("Edition is not for the book");
             }
-            
-            var orderItem = new OrderItem(
-                OrderItems.Any() ? OrderItems.Max(oi => oi.Id) + 1 : 1,
-                book,
-                edition,
-                quantity,
-                pricingService.CalculatePrice(edition, quantity)
-            );
-            OrderItems.Add(orderItem);
+
+            OrderItem orderItem =
+                new(
+                    OrderItems.Count != 0 ? OrderItems.Max(oi => oi.Id) + 1 : 1,
+                    book,
+                    edition,
+                    quantity,
+                    pricingService.CalculatePrice(edition, quantity)
+                );
+            _orderItems.Add(orderItem);
         }
 
         public void RemoveItem(long orderItemId)
         {
-            var orderItem = OrderItems.Find(oi => oi.Id == orderItemId);
-            if (orderItem != null)
-            {
-                OrderItems.Remove(orderItem);
-            }
+            var index = _orderItems.FindIndex(oi => oi.Id == orderItemId);
+            if (index < 0)
+                return;
+            _orderItems.RemoveAt(index);
         }
 
         public void UpdateItem(long orderItemId, int quantity)
         {
-            var orderItem = OrderItems.FirstOrDefault(oi => oi.Id == orderItemId);
-            if (orderItem == null)
-            {
-                throw new InvalidOperationException("Order item not found");
-            }
-
+            OrderItem? orderItem =
+                OrderItems.FirstOrDefault(oi => oi.Id == orderItemId)
+                ?? throw new InvalidOperationException("Order item not found");
             orderItem.UpdateQuantity(quantity);
         }
 
@@ -104,6 +101,12 @@ namespace DomainDrivenSample.SalesAndCatalog.Aggregates
             }
 
             Status = OrderStatus.Returned;
+            foreach (var orderItem in OrderItems)
+            {
+                DomainDriven.DomainEvents.Raise(
+                    new BookStockChangedEvent(orderItem.Book.Id, orderItem.Quantity)
+                );
+            }
         }
 
         public void Refund()

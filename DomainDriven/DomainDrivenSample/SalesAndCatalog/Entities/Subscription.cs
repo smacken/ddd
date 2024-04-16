@@ -1,5 +1,4 @@
-﻿using DomainDriven;
-using DomainDrivenSample.SalesAndCatalog.ValueObjects;
+﻿using DomainDrivenSample.SalesAndCatalog.ValueObjects;
 
 namespace DomainDrivenSample.SalesAndCatalog.Entities
 {
@@ -7,19 +6,19 @@ namespace DomainDrivenSample.SalesAndCatalog.Entities
     {
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
+        public DateRange DateRange { get; private set; }
         public SubscriptionType Type { get; private set; }
 
         public Subscription(Guid id, DateTime startDate, DateTime endDate, SubscriptionType type)
         {
             Id = id;
-            StartDate = startDate;
-            EndDate = endDate;
             Type = type;
+            DateRange = new DateRange(startDate, endDate);
         }
 
         public void Renew(DateTime newEndDate)
         {
-            EndDate = newEndDate;
+            DateRange.Extend(newEndDate);
         }
 
         public void ChangeType(SubscriptionType newType)
@@ -29,7 +28,7 @@ namespace DomainDrivenSample.SalesAndCatalog.Entities
 
         public void Cancel()
         {
-            EndDate = DateTime.Now;
+            DateRange.Cancel();
         }
     }
 }

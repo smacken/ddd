@@ -1,12 +1,11 @@
-﻿namespace DomainDriven
-{
-    public class DomainException : Exception
-    {
-        public DomainException(string message)
-        {
-            Message = message;
-        }
+﻿// <copyright file="DomainException.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-        public string Message { get; set; }
+namespace DomainDriven
+{
+    public class DomainException(string message): Exception
+    {
+        public string Message { get; set; } = message;
     }
 }

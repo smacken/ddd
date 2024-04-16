@@ -1,4 +1,4 @@
-namespace DomainDrivenSample.SalesAndCatalog.ValueObjects
+﻿namespace DomainDrivenSample.SalesAndCatalog.ValueObjects
 {
     public class Isbn : ValueObject
     {

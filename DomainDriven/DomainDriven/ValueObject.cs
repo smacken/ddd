@@ -2,39 +2,61 @@
 {
     public abstract class ValueObject : IEquatable<ValueObject>
     {
-        private int? _cachedHashCode;
+        private int? cachedHashCode;
 
         protected abstract IEnumerable<object> GetEqualityComponents();
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as ValueObject);
+            return this.Equals(obj as ValueObject);
         }
 
+        /// <inheritdoc/>
         public bool Equals(ValueObject other)
         {
-            if (ReferenceEquals(other, null)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            if (GetType() != other.GetType()) return false;
-            return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+            if (other is null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (this.GetType() != other.GetType())
+            {
+                return false;
+            }
+
+            return this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
-            if (!_cachedHashCode.HasValue)
+            if (!this.cachedHashCode.HasValue)
             {
-                _cachedHashCode = GetEqualityComponents()
+                this.cachedHashCode = this.GetEqualityComponents()
                     .Select(x => x != null ? x.GetHashCode() : 0)
                     .Aggregate((x, y) => x ^ y);
             }
 
-            return _cachedHashCode.Value;
+            return this.cachedHashCode.Value;
         }
 
         public static bool operator ==(ValueObject a, ValueObject b)
         {
-            if (ReferenceEquals(a, null) && ReferenceEquals(b, null)) return true;
-            if (ReferenceEquals(a, null) || ReferenceEquals(b, null)) return false;
+            if (a is null && b is null)
+            {
+                return true;
+            }
+
+            if (a is null || b is null)
+            {
+                return false;
+            }
+
             return a.Equals(b);
         }
 

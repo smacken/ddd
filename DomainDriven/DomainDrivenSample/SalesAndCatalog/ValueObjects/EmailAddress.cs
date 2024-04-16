@@ -1,18 +1,11 @@
-using DomainDriven;
+﻿using DomainDriven;
 
 namespace DomainDrivenSample.SalesAndCatalog.ValueObjects
 {
 
-    public class EmailAddress : ValueObject
+    public class EmailAddress(string value) : ValueObject
     {
-        public string Value { get; private set; }
-
-        public EmailAddress(string value)
-        {
-            //validate email address
-            
-            Value = value;
-        }
+        public string Value { get; private set; } = value;
 
         protected override IEnumerable<object> GetEqualityComponents()
         {

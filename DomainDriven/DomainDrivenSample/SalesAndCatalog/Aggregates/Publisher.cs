@@ -6,14 +6,13 @@ namespace DomainDrivenSample.SalesAndCatalog.Aggregates
 {
     public class Publisher : AggregateRoot<Guid>
     {
-        private List<Contract> _contracts;
+        private readonly List<Contract> _contracts;
         public string Name { get; private set; }
         public EmailAddress Email { get; private set; }
         public ReadOnlyCollection<Contract> Contracts => _contracts.AsReadOnly();
 
-        public Publisher(Guid id, string name, EmailAddress email)
+        public Publisher(Guid id, string name, EmailAddress email): base(id)
         {
-            Id = id;
             Name = name;
             Email = email;
             _contracts = new List<Contract>();

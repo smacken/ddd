@@ -1,6 +1,4 @@
-﻿using DomainDriven;
-
-namespace DomainDrivenSample.SalesAndCatalog.Entities
+﻿namespace DomainDrivenSample.SalesAndCatalog.Entities
 {
     public class User : Entity<Guid>
     {

@@ -1,16 +1,19 @@
 ﻿namespace DomainDriven
 {
-    public interface IAggregateRoot<out TId> where TId : notnull
+    public interface IAggregateRoot<out TId>
+        where TId : notnull
     {
         public TId Id { get; }
-        IReadOnlyCollection<IDomainEvent> DomainEvents { get; }
+
+        IReadOnlyCollection<IDomainEvent> Events { get; }
+
         void ClearDomainEvents();
     }
-    
+
     public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
         where TId : notnull
     {
-        private readonly List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
+        private readonly List<IDomainEvent> domainEvents = new List<IDomainEvent>();
 
         protected AggregateRoot()
             : base() { }
@@ -18,16 +21,18 @@
         protected AggregateRoot(TId id)
             : base(id) { }
 
-        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+        /// <inheritdoc/>
+        public IReadOnlyCollection<IDomainEvent> Events => this.domainEvents.AsReadOnly();
 
         protected void AddDomainEvent(IDomainEvent eventItem)
         {
-            _domainEvents.Add(eventItem);
+            this.domainEvents.Add(eventItem);
         }
 
+        /// <inheritdoc/>
         public void ClearDomainEvents()
         {
-            _domainEvents.Clear();
+            this.domainEvents.Clear();
         }
     }
 }

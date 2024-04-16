@@ -1,10 +1,8 @@
-﻿using DomainDriven;
-
-namespace DomainDrivenSample.SalesAndCatalog.ValueObjects
+﻿namespace DomainDrivenSample.SalesAndCatalog.ValueObjects
 {
     public class BookMetadata : ValueObject
     {
-        public string ISBN { get; private set; }
+        public Isbn ISBN { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string Genre { get; private set; }
@@ -18,11 +16,23 @@ namespace DomainDrivenSample.SalesAndCatalog.ValueObjects
             List<string> authors
         )
         {
-            ISBN = isbn;
+            ISBN = new Isbn(isbn);
             Title = title;
             Description = description;
             Genre = genre;
             Authors = authors;
+        }
+
+        public Dictionary<string, object> ToDictionary()
+        {
+            return new Dictionary<string, object>
+            {
+                { "ISBN", ISBN },
+                { "Title", Title },
+                { "Description", Description },
+                { "Genre", Genre },
+                { "Authors", Authors }
+            };
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

@@ -6,7 +6,7 @@ namespace DomainDrivenSample.SalesAndCatalog.Entities
 {
     public class Contract : Entity<long>
     {
-        private List<Book> _booksUnderContract = new List<Book>();
+        private readonly List<Book> _booksUnderContract = new();
         public Publisher Publisher { get; private set; }
         public Author Author { get; private set; }
         public DateRange DateRange { get; private set; }

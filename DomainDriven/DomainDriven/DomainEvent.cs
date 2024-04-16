@@ -1,46 +1,66 @@
-﻿using System.Collections.ObjectModel;
-
-namespace DomainDriven
+﻿namespace DomainDriven
 {
     public interface IDomainEvent
     {
         string Type { get; }
+
         DateTime Created { get; }
+
         IReadOnlyDictionary<string, object> Args { get; }
+
         string? CorrelationID { get; }
+
         int Version { get; }
     }
 
     public abstract class DomainEvent : IDomainEvent
     {
-        public string Type => GetType().Name;
-        public DateTime Created { get; }
-        public IReadOnlyDictionary<string, object> Args { get; }
+        private readonly Dictionary<string, object> _args;
+
+        /// <inheritdoc/>
+        public string Type => this.GetType().Name;
+
+        /// <inheritdoc/>
+        public DateTime Created { get; } = DateTime.UtcNow;
+
+        /// <inheritdoc/>
+        public IReadOnlyDictionary<string, object> Args => _args.AsReadOnly();
+
+        /// <inheritdoc/>
         public string? CorrelationID { get; set; }
+
+        /// <inheritdoc/>
         public int Version { get; }
 
-        protected DomainEvent(Dictionary<string, object> args, string? correlationId = null, int version = 1)
+        public DomainEvent()
         {
-            Created = DateTime.UtcNow;
-            Args = new ReadOnlyDictionary<string, object>(args);
-            CorrelationID = correlationId ?? Guid.NewGuid().ToString();
-            Version = version;
+            _args = new Dictionary<string, object>();
         }
+
+        public abstract void Flatten();
+
+        protected void AddArg(string key, object value) => _args.Add(key, value);
     }
 
     public class DomainEventRecord
     {
         public string Type { get; set; }
-        public List<KeyValuePair<string, string>> Args { get; set; }
-        public string? CorrelationID { get; set; }
-        public DateTime Created { get; set; }
 
-        public DomainEventRecord(string type, List<KeyValuePair<string, string>> args, string? correlationID)
+        public List<KeyValuePair<string, string>> Args { get; set; }
+
+        public string? CorrelationID { get; set; }
+
+        public DateTime Created { get; set; } = DateTime.UtcNow;
+
+        public DomainEventRecord(
+            string type,
+            List<KeyValuePair<string, string>> args,
+            string? correlationID = null
+        )
         {
-            Type = type;
-            Args = args ?? new List<KeyValuePair<string, string>>();
-            CorrelationID = correlationID;
-            Created = DateTime.UtcNow;
+            this.Type = type;
+            this.Args = args;
+            this.CorrelationID = correlationID;
         }
     }
 
@@ -49,27 +69,27 @@ namespace DomainDriven
         string? CorrelationId { get; }
     }
 
-    public interface Handles<T> where T : DomainEvent
+    public interface Handles<T>
+        where T : DomainEvent
     {
-        Task Handle(T args);
+        Task Handle(T args, CancellationToken cancellationToken = default);
     }
 
     public class DomainEventHandle<TDomainEvent> : Handles<TDomainEvent>
         where TDomainEvent : DomainEvent
     {
-        private readonly IRequestCorrelationIdentifier _requestCorrelationIdentifier;
+        private readonly IRequestCorrelationIdentifier requestCorrelationIdentifier;
 
         public DomainEventHandle(IRequestCorrelationIdentifier requestCorrelationIdentifier)
         {
-            _requestCorrelationIdentifier = requestCorrelationIdentifier ?? throw new ArgumentNullException(nameof(requestCorrelationIdentifier));
+            this.requestCorrelationIdentifier = requestCorrelationIdentifier;
         }
 
-        public virtual Task Handle(TDomainEvent @event)
+        public Task Handle(TDomainEvent @event, CancellationToken cancellationToken = default)
         {
-            if (@event is null)
-                throw new ArgumentNullException(nameof(@event));
-
-            @event.CorrelationID = _requestCorrelationIdentifier.CorrelationId; 
+            ArgumentNullException.ThrowIfNull(@event);
+            @event.Flatten();
+            @event.CorrelationID = this.requestCorrelationIdentifier.CorrelationId;
             return Task.CompletedTask;
         }
     }

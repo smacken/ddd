@@ -1,6 +1,4 @@
-﻿using DomainDriven;
-
-namespace DomainDrivenSample.SalesAndCatalog.DomainEvents
+﻿namespace DomainDrivenSample.SalesAndCatalog.DomainEvents
 {
     public class BookCreatedEvent : DomainEvent
     {
@@ -8,28 +6,19 @@ namespace DomainDrivenSample.SalesAndCatalog.DomainEvents
         public string Title { get; private set; }
         public string Author { get; private set; }
 
-        public BookCreatedEvent(
-            Guid bookId,
-            string title,
-            string author,
-            string? correlationId = null,
-            int version = 1
-        )
-            : base(
-                new Dictionary<string, object>()
-                {
-                    { "BookId", bookId.ToString() },
-                    { "Title", title },
-                    { "Author", author }
-                },
-                correlationId,
-                version
-            )
+        public BookCreatedEvent(Guid bookId, string title, string author)
+            : base()
         {
             BookId = bookId;
             Title = title;
             Author = author;
-            CorrelationID = correlationId;
+        }
+
+        public override void Flatten()
+        {
+            AddArg("BookId", BookId);
+            AddArg("Title", Title);
+            AddArg("Author", Author);
         }
     }
 }

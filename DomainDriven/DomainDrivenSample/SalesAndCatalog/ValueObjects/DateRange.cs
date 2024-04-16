@@ -1,7 +1,7 @@
-using DomainDriven;
+﻿using DomainDriven;
 
 namespace DomainDrivenSample.SalesAndCatalog.ValueObjects;
-    
+
 public class DateRange : ValueObject
 {
     public DateTime StartDate { get; private set; }

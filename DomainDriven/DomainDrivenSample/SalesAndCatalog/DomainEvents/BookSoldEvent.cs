@@ -1,15 +1,21 @@
-﻿using DomainDriven;
-
-namespace DomainDrivenSample.SalesAndCatalog.DomainEvents
+﻿namespace DomainDrivenSample.SalesAndCatalog.DomainEvents
 {
     public class BookSoldEvent : DomainEvent
     {
         public Guid BookId { get; private set; }
         public int QuantitySold { get; private set; }
 
-        public BookSoldEvent(Dictionary<string, object> args, string? correlationId = null, int version = 1) 
-            : base(args, correlationId, version)
+        public BookSoldEvent(Guid bookId, int quantitySold)
+            : base()
         {
+            BookId = bookId;
+            QuantitySold = quantitySold;
+        }
+
+        public override void Flatten()
+        {
+            AddArg("BookId", BookId);
+            AddArg("QuantitySold", QuantitySold);
         }
     }
 }

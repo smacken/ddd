@@ -1,3 +1,4 @@
+﻿using DomainDrivenSample.SalesAndCatalog.DomainEvents;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DomainDrivenSample.Tests
@@ -8,7 +9,7 @@ namespace DomainDrivenSample.Tests
 
         public DIFixture()
         {
-            var services = new ServiceCollection();
+            ServiceCollection services = new();
             services.AddDomainDriven();
             _serviceProvider = services.BuildServiceProvider();
             DomainEvents.Init(_serviceProvider);
@@ -27,6 +28,7 @@ namespace DomainDrivenSample.Tests
         public static IServiceCollection AddDomainDriven(this IServiceCollection services)
         {
             // services.AddTransient<Handles<DomainEvent>, DomainEventHandle>();
+            services.AddTransient<Handles<BookCreatedEvent>, DomainEventHandle<BookCreatedEvent>>();
             return services;
         }
     }

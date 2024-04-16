@@ -1,2 +1,2 @@
+﻿global using DomainDriven;
 global using Xunit;
-global using DomainDriven;
