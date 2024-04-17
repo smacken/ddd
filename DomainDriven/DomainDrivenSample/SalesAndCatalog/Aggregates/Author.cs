@@ -23,6 +23,9 @@ namespace DomainDrivenSample.SalesAndCatalog.Aggregates
             _promotions = new List<Promotion>();
         }
 
+        public Author(string name, string biography)
+            : this(Guid.NewGuid(), name, biography) { }
+
         public void UpdateName(string name)
         {
             Name = name;
@@ -33,7 +36,7 @@ namespace DomainDrivenSample.SalesAndCatalog.Aggregates
             Biography = biography;
         }
 
-        public void AddBook(Book book)
+        public void WriteBook(Book book)
         {
             _books.Add(book);
         }
@@ -41,6 +44,17 @@ namespace DomainDrivenSample.SalesAndCatalog.Aggregates
         public void RemoveBook(Book book)
         {
             _books.Remove(book);
+        }
+
+        public void SubmitBook(string title)
+        {
+            Book? book = Books.FirstOrDefault(b => b.Metadata.Title == title);
+            if (book is null)
+            {
+                throw new InvalidOperationException("Book not found");
+            }
+
+            DomainDriven.DomainEvents.Raise(new BookSubmittedEvent(this, book));
         }
 
         public void AddPromotion(Promotion promotion)

@@ -6,6 +6,7 @@
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string Genre { get; private set; }
+        public string? Publisher { get; set; }
         public List<string> Authors { get; private set; }
 
         public BookMetadata(
@@ -21,6 +22,12 @@
             Description = description;
             Genre = genre;
             Authors = authors;
+        }
+
+        public void RegisterBook(string publisher, Isbn isbn)
+        {
+            Publisher = publisher;
+            ISBN = isbn;
         }
 
         public Dictionary<string, object> ToDictionary()

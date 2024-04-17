@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using DomainDriven;
 using DomainDrivenSample.SalesAndCatalog.DomainEvents;
 using DomainDrivenSample.SalesAndCatalog.Entities;
 using DomainDrivenSample.SalesAndCatalog.ValueObjects;
@@ -19,6 +18,9 @@ namespace DomainDrivenSample.SalesAndCatalog.Aggregates
             Metadata = metadata;
             _editions = new List<Edition>();
         }
+
+        public Book(BookMetadata metadata)
+            : this(Guid.NewGuid(), metadata) { }
 
         public void AddEdition(Edition edition)
         {

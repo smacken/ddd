@@ -13,5 +13,13 @@
         {
             yield return Value;
         }
+
+        public static implicit operator string(Isbn isbn) => isbn.Value;
+
+        //equals operator
+        public static bool operator ==(Isbn left, Isbn right) => left.Equals(right);
+
+        //not equals operator
+        public static bool operator !=(Isbn left, Isbn right) => !left.Equals(right);
     }
 }

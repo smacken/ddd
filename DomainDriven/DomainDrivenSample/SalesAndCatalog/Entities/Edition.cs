@@ -16,6 +16,14 @@ namespace DomainDrivenSample.SalesAndCatalog.Entities
             StockQuantity = stockQuantity;
         }
 
+        public Edition(EditionType type, Money price)
+        {
+            Id = Guid.NewGuid();
+            Type = type;
+            Price = price;
+            StockQuantity = 0;
+        }
+
         public void ChangePrice(Money newPrice)
         {
             Price = newPrice;

@@ -78,6 +78,63 @@ For a comprehensive guide to using the DomainDriven library, please refer to the
 **Sales & Catalog Domain model**
 ![SalesDomain](assets/salesdomain.png)
 
+## Domain Rules for Architecture Validation
+
+Our library provides a set of domain-driven design architecture validations through DomainRules.cs. This set of rules ensures that your project adheres to the principles of Domain-Driven Design (DDD) and maintains a clean, maintainable architecture.
+
+#### How to Use DomainRules
+
+To leverage DomainRules in your project, follow these steps:
+
+1. Include the Library: Ensure that DomainDrivenArchitecture is referenced in your project. This can be done by adding the library as a dependency in your project file.
+
+2. Load Your Architecture: Use ArchLoader to load your project's assemblies into an Architecture object. This object will be used to apply the domain rules.
+
+3. Apply the Rules: Create a test class that will apply the domain rules to your architecture. You can use any testing framework that you prefer, such as xUnit, NUnit, or MSTest.
+
+4. Run the Tests: Execute the tests to validate your architecture against the domain rules. Any violations will be reported by the test runner, allowing you to make necessary adjustments to your codebase.
+
+5. Integrate into CI/CD: Integrate these tests into your Continuous Integration/Continuous Deployment (CI/CD) pipeline to ensure that architecture rules are enforced with every build.
+
+#### Example Test Case
+
+Here's an example of how you might write a test case using DomainRules:
+
+```csharp
+using DomainDriven.DomainDrivenArchitecture;
+using ArchUnitNET.Loader;
+using ArchUnitNET.Domain;
+using Xunit;
+
+public class ArchitectureValidationTests
+{
+    private static readonly Architecture Architecture = new ArchLoader().LoadAssemblies(typeof(MyRootClass).Assembly).Build();
+
+    [Fact]
+    public void ValidateDomainLayer()
+    {
+        var domainLayerRules = new DomainRules();
+        domainLayerRules.ValidateDomainLayer(Architecture);
+    }
+}
+```
+
+#### Available Domain Rules
+
+DomainRules.cs provides a number of predefined rules that reflect common DDD architecture principles, including:
+
+- Aggregate Root Validations: Ensuring that Aggregate Roots have a global identity and are the only point of reference for aggregates.
+- Entity Validations: Entities within the domain layer should have an identity and support state changes within a transaction boundary.
+- Value Object Validations: Value Objects should be immutable and define equality based on their attributes.
+- Service Layer Validations: Services should coordinate tasks and delegate work to entities and value objects.
+- Module Cohesion: Components within a module should be cohesive and loosely coupled with components outside the module.
+
+#### Customizing Rules
+
+While DomainRules.cs provides a solid foundation for DDD architecture validation, you might find that you need to
+customize or extend these rules to fit the specific needs of your project. You can do this by creating your own rules
+following the pattern established in DomainRules.cs and adding them to your test suite.
+
 ## Support and Contact
 
 If you need help or have any questions about the DomainDriven library, please [open an issue](https://github.com/your-repo/DomainDriven/issues) in this repository.

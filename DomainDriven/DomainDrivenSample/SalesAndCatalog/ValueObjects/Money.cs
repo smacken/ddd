@@ -2,10 +2,17 @@
 
 namespace DomainDrivenSample.SalesAndCatalog.ValueObjects
 {
-    public class Money(decimal amount, string currency) : ValueObject
+    public class Money : ValueObject
     {
-        public decimal Amount { get; private set; } = amount;
-        public string Currency { get; private set; } = currency;
+        public decimal Amount { get; private set; }
+        public string Currency { get; private set; }
+
+        public Money(decimal amount, string currency)
+        {
+            Amount = amount;
+            Currency = currency;
+        }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Amount;
@@ -25,7 +32,9 @@ namespace DomainDrivenSample.SalesAndCatalog.ValueObjects
         {
             if (money1.Currency != money2.Currency)
             {
-                throw new InvalidOperationException("Cannot subtract money in different currencies");
+                throw new InvalidOperationException(
+                    "Cannot subtract money in different currencies"
+                );
             }
             return new Money(money1.Amount - money2.Amount, money1.Currency);
         }
@@ -75,6 +84,4 @@ namespace DomainDrivenSample.SalesAndCatalog.ValueObjects
             throw new NotImplementedException();
         }
     }
-
-
 }

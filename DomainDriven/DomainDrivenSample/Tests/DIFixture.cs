@@ -1,5 +1,4 @@
-﻿using DomainDrivenSample.SalesAndCatalog.DomainEvents;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace DomainDrivenSample.Tests
 {
@@ -11,6 +10,7 @@ namespace DomainDrivenSample.Tests
         {
             ServiceCollection services = new();
             services.AddDomainDriven();
+            services.AddTransient(typeof(IRepository<>), typeof(InMemoryRepository<>));
             _serviceProvider = services.BuildServiceProvider();
             DomainEvents.Init(_serviceProvider);
         }
@@ -20,16 +20,6 @@ namespace DomainDrivenSample.Tests
         public void Dispose()
         {
             DomainEvents.ClearCallbacks();
-        }
-    }
-
-    public static class DomainDrivenExtensions
-    {
-        public static IServiceCollection AddDomainDriven(this IServiceCollection services)
-        {
-            // services.AddTransient<Handles<DomainEvent>, DomainEventHandle>();
-            services.AddTransient<Handles<BookCreatedEvent>, DomainEventHandle<BookCreatedEvent>>();
-            return services;
         }
     }
 }

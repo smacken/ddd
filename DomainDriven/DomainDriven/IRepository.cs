@@ -16,7 +16,7 @@
 
         IEnumerable<TEntity> GetAll();
 
-        void Add(TEntity entity);
+        Task Add(TEntity entity, CancellationToken cancellationToken = default);
 
         void Remove(TEntity entity);
 

@@ -1,12 +1,14 @@
 ﻿namespace DomainDrivenSample;
 
+using System.Threading;
+using System.Threading.Tasks;
 using DomainDriven;
 using DomainDriven.Specification;
 
 public class InMemoryRepository<TEntity> : IRepository<TEntity, Guid>
     where TEntity : IAggregateRoot<Guid>
 {
-    private readonly Dictionary<Guid, TEntity> _entities = [];
+    private readonly Dictionary<Guid, TEntity> _entities = new();
 
     public TEntity? FindById(Guid id)
     {
@@ -40,5 +42,11 @@ public class InMemoryRepository<TEntity> : IRepository<TEntity, Guid>
         // In a real repository, this would commit changes to the data store.
         // Since this is an in-memory repository, changes are already "saved" when Add or Remove is called.
         // This method can be left empty or used to raise domain events if needed.
+    }
+
+    public Task Add(TEntity entity, CancellationToken cancellationToken = default)
+    {
+        _entities[entity.Id] = entity;
+        return Task.CompletedTask;
     }
 }

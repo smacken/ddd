@@ -3,9 +3,14 @@
 namespace DomainDrivenSample.SalesAndCatalog.ValueObjects
 {
 
-    public class EmailAddress(string value) : ValueObject
+    public class EmailAddress : ValueObject
     {
-        public string Value { get; private set; } = value;
+        public string Value { get; private set; }
+        
+        public EmailAddress(string value)
+        {
+            Value = value;
+        }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
