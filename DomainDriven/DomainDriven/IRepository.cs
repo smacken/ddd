@@ -19,10 +19,18 @@
         Task Add(TEntity entity, CancellationToken cancellationToken = default);
 
         void Remove(TEntity entity);
-
-        void SaveChanges();
     }
 
     public interface IRepository<TEntity> : IRepository<TEntity, Guid>
-        where TEntity : IAggregateRoot<Guid> { }
+        where TEntity : IAggregateRoot<Guid>
+    { }
+
+    public interface IRepositoryFactory
+    {
+        IRepository<T> CreateRepository<T>()
+            where T : IAggregateRoot<Guid>;
+        IRepository<T, TId> CreateRepository<T, TId>()
+            where T : IAggregateRoot<TId>
+            where TId : notnull;
+    }
 }

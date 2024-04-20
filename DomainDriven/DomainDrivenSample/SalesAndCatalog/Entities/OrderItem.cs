@@ -1,5 +1,4 @@
-﻿using DomainDriven;
-using DomainDrivenSample.SalesAndCatalog.Aggregates;
+﻿using DomainDrivenSample.SalesAndCatalog.Aggregates;
 using DomainDrivenSample.SalesAndCatalog.ValueObjects;
 
 namespace DomainDrivenSample.SalesAndCatalog.Entities

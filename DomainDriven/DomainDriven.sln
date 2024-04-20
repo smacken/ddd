@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDrivenSample", "Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDrivenArchitecture", "DomainDrivenArchitecture\DomainDrivenArchitecture.csproj", "{32C87F7E-7808-4D60-BDEC-2917F5793EB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDriven.Rules", "DomainDriven.Rules\DomainDriven.Rules.csproj", "{E297D1EF-4F5C-4DD7-85FB-DDC0F2534CCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{32C87F7E-7808-4D60-BDEC-2917F5793EB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32C87F7E-7808-4D60-BDEC-2917F5793EB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32C87F7E-7808-4D60-BDEC-2917F5793EB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E297D1EF-4F5C-4DD7-85FB-DDC0F2534CCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E297D1EF-4F5C-4DD7-85FB-DDC0F2534CCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E297D1EF-4F5C-4DD7-85FB-DDC0F2534CCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E297D1EF-4F5C-4DD7-85FB-DDC0F2534CCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,22 +1,47 @@
 ﻿using DomainDrivenSample.SalesAndCatalog.ValueObjects;
+using DomainDrivenSample.SalesAndCatalog.ValueObjexts;
 
 namespace DomainDrivenSample.SalesAndCatalog.Entities
 {
     public class Promotion : Entity<Guid>
     {
-        public string ID { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
         public DateRange DateRange { get; private set; }
         public string Description { get; private set; }
+        public DiscountType DiscountType { get; private set; } = DiscountType.Amount;
+        public decimal DiscountValue { get; private set; }
+        public bool RequiresCode { get; private set; }
+        public List<string?> PromotionCodes { get; private set; }
 
-        public Promotion(Guid id, DateTime startDate, DateTime endDate, string description)
+        public Promotion(
+            DateTime startDate,
+            DateTime endDate,
+            string description,
+            decimal discountValue
+        )
         {
-            Id = id;
+            Id = Guid.NewGuid();
             StartDate = startDate;
             EndDate = endDate;
             DateRange = new DateRange(startDate, endDate);
             Description = description;
+            PromotionCodes = new List<string?>();
+            RequiresCode = false;
+            DiscountValue = discountValue;
+        }
+
+        public void SetPromotionDetails(
+            DiscountType discountType,
+            decimal discountValue,
+            bool requiresCode,
+            List<string?> promotionCodes
+        )
+        {
+            DiscountType = discountType;
+            DiscountValue = discountValue;
+            RequiresCode = requiresCode;
+            PromotionCodes = promotionCodes;
         }
 
         public void ChangeDescription(string newDescription)
@@ -29,6 +54,9 @@ namespace DomainDrivenSample.SalesAndCatalog.Entities
             StartDate = newStartDate;
             EndDate = newEndDate;
         }
+
+        public bool ValidateCode(string promotionCode) =>
+            RequiresCode && PromotionCodes.Contains(promotionCode);
 
         public bool IsActive()
         {

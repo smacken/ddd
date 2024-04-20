@@ -13,6 +13,25 @@ namespace DomainDrivenSample.SalesAndCatalog.Aggregates
         public ReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
         public DateTime DatePlaced { get; private set; } = DateTime.UtcNow;
         public OrderStatus Status { get; private set; } = OrderStatus.Placed;
+        public List<PromotionCode> PromotionCode { get; private set; }
+
+        public Order(Guid id, Reader buyer, List<PromotionCode>? promotionCodes = null)
+            : base(id)
+        {
+            Buyer = buyer;
+            PromotionCode = promotionCodes ?? new List<PromotionCode>();
+            Status = OrderStatus.Placed;
+            DatePlaced = DateTime.UtcNow;
+        }
+
+        public Order(Reader buyer, List<PromotionCode>? promotionCodes = null)
+            : base(Guid.NewGuid())
+        {
+            Buyer = buyer;
+            PromotionCode = promotionCodes ?? new List<PromotionCode>();
+            Status = OrderStatus.Placed;
+            DatePlaced = DateTime.UtcNow;
+        }
 
         public void AddBookToOrder(
             Book book,

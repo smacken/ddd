@@ -37,13 +37,6 @@ public class InMemoryRepository<TEntity> : IRepository<TEntity, Guid>
 
     public void Remove(TEntity entity) => _entities.Remove(entity.Id);
 
-    public virtual void SaveChanges()
-    {
-        // In a real repository, this would commit changes to the data store.
-        // Since this is an in-memory repository, changes are already "saved" when Add or Remove is called.
-        // This method can be left empty or used to raise domain events if needed.
-    }
-
     public Task Add(TEntity entity, CancellationToken cancellationToken = default)
     {
         _entities[entity.Id] = entity;
